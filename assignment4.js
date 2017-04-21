@@ -14,7 +14,7 @@
 (function() {
   // Magic!
   var arr;
-
+  $('.panel').empty();
   $.ajax({
     dataType: 'json',
     url: 'http://www.mattbowytz.com/simple_api.json',
@@ -30,7 +30,7 @@
   });
 
   $(document).on('keyup', '.flexsearch-input', function(){
-
+    $('.panel').empty();
     var x = document.getElementsByClassName("flexsearch-input");
     var toDisplay = [];
     var counter = 0;
