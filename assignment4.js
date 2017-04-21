@@ -13,5 +13,66 @@
 
 (function() {
   // Magic!
+  var arr;
+
+  $.ajax({
+    dataType: 'json',
+    url: 'http://www.mattbowytz.com/simple_api.json',
+    data: {
+      data: "all",
+      format: "json"
+    },
+    success: function(data) {
+      console.log(data);
+      arr = data;
+      // alert(jsonData);
+   }
+  });
+
+  $(document).on('keyup', '.flexsearch-input', function(){
+
+    var x = document.getElementsByClassName("flexsearch-input");
+    var toDisplay = [];
+    var counter = 0;
+
+    $.each(arr['data'], function(index, jsonData)
+    {
+      for(i = 0; i < jsonData.length; i++)
+      {
+
+        if(jsonData[i].toLowerCase().startsWith(x[0].value.toLowerCase()) && x[0].value != '')
+        {
+          toDisplay[counter] = jsonData[i];
+          counter += 1;
+        }
+      }
+    });
+
+    if(toDisplay.length == 0)
+    {
+      $('.panel').hide("fast");
+      $('.panel').empty();
+    }
+    else
+    {
+      console.log(toDisplay);
+      $.each(toDisplay, function(index, value){
+        $('.panel').html( $('.panel').html() + "<div><a href='http://www.google.com/#q=" + value + "' target='_blank'>" + value + "</a></div>")
+      });
+      // var str = $('.panel').text(toDisplay.join("\n"));
+      $('.panel').slideDown("fast");
+    }
+
+
+  });
+
+  $('form').submit(function(event){
+    var data = document.getElementsByClassName("flexsearch-input");
+    window.open('http://www.google.com/#q=' + data[0].value, '_blank');
+    // var link = $(this).find('a').attr('target', '_blank');
+    // window.open(link.attr('http://www.google.com/#q=' + data[0].value));
+  });
+
+
   console.log('Keepin\'n it clean with an external script!');
 })();
